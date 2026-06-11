@@ -251,6 +251,7 @@ img {
   display: grid !important;
 }
 
+.admin-mode .project-action,
 .admin-mode .publication-action,
 .admin-mode .blog-action {
   display: inline-grid !important;
@@ -716,19 +717,27 @@ h3 {
 }
 
 .project-card {
+  position: relative;
   display: flex;
   flex: 0 0 calc((100% - 42px) / 4);
   min-height: 368px;
   flex-direction: column;
   padding: 22px;
   scroll-snap-align: start;
+  cursor: pointer;
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
-.project-card:hover {
+.admin-mode .project-card {
+  padding-right: 72px;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
   border-color: rgba(66, 214, 217, 0.42);
   background: rgba(18, 24, 29, 0.9);
   transform: translateY(-4px);
+  outline: none;
 }
 
 .project-card.is-hidden {
@@ -766,6 +775,35 @@ h3 {
   font-weight: 850;
 }
 
+.project-actions {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  gap: 8px;
+}
+
+.project-action {
+  width: 34px;
+  border-color: rgba(66, 214, 217, 0.22);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.project-action:hover {
+  border-color: rgba(66, 214, 217, 0.55);
+  color: #fff;
+  background: rgba(66, 214, 217, 0.12);
+}
+
+.project-action.danger-action:hover {
+  border-color: rgba(255, 95, 95, 0.64);
+  background: rgba(255, 95, 95, 0.14);
+}
+
+.admin-mode .project-kicker {
+  padding-right: 68px;
+}
+
 .project-kicker {
   display: flex;
   align-items: center;
@@ -781,6 +819,20 @@ h3 {
 
 .project-kicker svg {
   color: var(--cyan);
+}
+
+.project-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: rgba(86, 230, 240, 0.9);
+  font-size: 0.86rem;
+}
+
+.project-card-footer svg {
+  width: 16px;
+  height: 16px;
 }
 
 .project-card p,
@@ -1548,6 +1600,23 @@ body.modal-open {
   .project-card {
     min-height: 320px;
     padding: 22px 20px;
+  }
+
+  .admin-mode .project-card {
+    padding-right: 68px;
+  }
+
+  .project-actions {
+    right: 12px;
+    gap: 6px;
+  }
+
+  .project-action {
+    width: 32px;
+  }
+
+  .admin-mode .project-kicker {
+    padding-right: 62px;
   }
 
   .timeline-item {

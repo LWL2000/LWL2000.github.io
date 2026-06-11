@@ -69,6 +69,9 @@
   const addProjectCard = document.querySelector(".project-add-card");
   const projectModal = document.querySelector("[data-project-modal]");
   const projectForm = document.querySelector("[data-project-form]");
+  const projectModalTitle = document.querySelector("#projectModalTitle");
+  const projectModalEyebrow = document.querySelector("[data-project-eyebrow]");
+  const projectSubmitButton = document.querySelector("[data-project-submit]");
   const categoryModal = document.querySelector("[data-category-modal]");
   const categoryForm = document.querySelector("[data-category-form]");
   const publicationList = document.querySelector("[data-publication-list]");
@@ -188,6 +191,55 @@
     return `${slug || "project"}-${String(fallback).toLowerCase()}`;
   };
 
+  const normalizeProjectURL = (url) => {
+    const trimmed = String(url || "").trim();
+    if (!trimmed) return "https://github.com/LWL2000";
+    if (/^(https?:|#|\/)/i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+  };
+
+  const findProjectCard = (projectId) => getProjectCards().find((card) => card.dataset.projectId === projectId);
+
+  const getProjectData = (card) => ({
+    id: card.dataset.projectId,
+    category: card.dataset.category || "eeg",
+    title: card.querySelector("h3")?.textContent.trim() || "",
+    description: card.querySelector("p")?.textContent.trim() || "",
+    meta: Array.from(card.querySelectorAll(".project-meta li")).map((item) => item.textContent.trim()),
+    url: card.dataset.projectUrl || "https://github.com/LWL2000"
+  });
+
+  const setProjectCardData = (card, project) => {
+    const projectId = createProjectId(project);
+    const metaItems = (project.meta || []).filter(Boolean);
+    card.dataset.category = project.category;
+    card.dataset.projectId = projectId;
+    card.dataset.projectUrl = normalizeProjectURL(project.url);
+    card.setAttribute("role", "link");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", `打开项目：${project.title}`);
+
+    const title = card.querySelector("h3");
+    const description = card.querySelector("p");
+    const meta = card.querySelector(".project-meta");
+    if (title) title.textContent = project.title;
+    if (description) description.textContent = project.description;
+    if (meta) {
+      meta.innerHTML = metaItems.map((item) => `<li>${escapeHTML(item)}</li>`).join("");
+    }
+  };
+
+  const upsertStoredProject = (project) => {
+    const storedProjects = readStoredProjects();
+    const index = storedProjects.findIndex((item) => item.id === project.id);
+    if (index >= 0) {
+      storedProjects[index] = project;
+      writeStoredProjects(storedProjects);
+      return;
+    }
+    writeStoredProjects([...storedProjects, project]);
+  };
+
   const rememberDeletedProject = (projectId) => {
     if (!projectId) return;
     const deletedProjects = new Set(readDeletedProjects());
@@ -215,12 +267,24 @@
     article.className = "project-card";
     article.dataset.category = project.category;
     article.dataset.projectId = createProjectId(project);
+    article.dataset.projectUrl = normalizeProjectURL(project.url);
+    article.setAttribute("role", "link");
+    article.setAttribute("tabindex", "0");
+    article.setAttribute("aria-label", `打开项目：${project.title}`);
     if (project.persisted) {
       article.dataset.persistedProject = "true";
     }
     const number = String(getProjectCards().length + 1).padStart(2, "0");
-    const metaItems = project.meta.filter(Boolean);
+    const metaItems = (project.meta || []).filter(Boolean);
     article.innerHTML = `
+      <div class="project-actions">
+        <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+          <i data-lucide="pencil"></i>
+        </button>
+        <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+          <i data-lucide="trash-2"></i>
+        </button>
+      </div>
       <div class="project-kicker">
         <span>${number}</span>
         <i data-lucide="${projectIcons[project.category] || "cpu"}"></i>
@@ -230,6 +294,10 @@
       <ul class="project-meta">
         ${metaItems.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}
       </ul>
+      <div class="project-card-footer">
+        <strong>查看代码</strong>
+        <i data-lucide="arrow-up-right"></i>
+      </div>
     `;
     projectScroller?.insertBefore(article, addProjectCard);
     if (window.lucide) {
@@ -315,11 +383,14 @@
 
     const storedProjects = readStoredProjects();
     const nextStoredProjects = storedProjects.filter((project) => project.id !== projectId);
-    if (nextStoredProjects.length !== storedProjects.length) {
+    const wasStored = nextStoredProjects.length !== storedProjects.length;
+    if (wasStored) {
       writeStoredProjects(nextStoredProjects);
-      forgetDeletedProject(projectId);
-    } else {
+    }
+    if (!card.dataset.persistedProject) {
       rememberDeletedProject(projectId);
+    } else {
+      forgetDeletedProject(projectId);
     }
 
     card.remove();
@@ -330,6 +401,12 @@
     removeProjectRecord(card);
     updateProjectNumbers();
     setActiveProjectFilter(activeProjectFilter);
+  };
+
+  const openProjectURL = (card) => {
+    const url = normalizeProjectURL(card.dataset.projectUrl);
+    if (!url) return;
+    window.location.href = url;
   };
 
   const deleteCategory = (categoryValue) => {
@@ -606,7 +683,8 @@
   const storedProjects = readStoredProjects();
   const normalizedStoredProjects = storedProjects.map((project, index) => ({
     ...project,
-    id: createProjectId(project, index + 1)
+    id: createProjectId(project, index + 1),
+    url: normalizeProjectURL(project.url)
   }));
   if (JSON.stringify(normalizedStoredProjects) !== JSON.stringify(storedProjects)) {
     writeStoredProjects(normalizedStoredProjects);
@@ -614,7 +692,14 @@
 
   normalizedStoredProjects
     .filter((project) => !deletedProjects.includes(project.id) && !deletedCategories.includes(project.category))
-    .forEach((project) => createProjectCard({ ...project, persisted: true }));
+    .forEach((project) => {
+      const existing = findProjectCard(project.id);
+      if (existing) {
+        setProjectCardData(existing, project);
+        return;
+      }
+      createProjectCard({ ...project, persisted: true });
+    });
 
   const deletedPublications = readDeletedPublications();
   getPublicationItems()
@@ -741,18 +826,44 @@
     confirmDeleteButton?.focus();
   };
 
-  const openProjectModal = () => {
+  const openProjectModal = (project = null) => {
     if (!isAdmin) return;
     if (!projectModal || !projectForm) return;
     closeCategoryModal();
     closePublicationModal();
     closeBlogModal();
     closeDeleteModal();
+
+    const isEdit = Boolean(project?.id);
+    const defaultProjectCategory = projectCategoryField?.options[0]?.value || "eeg";
+    projectForm.reset();
+    projectForm.elements.id.value = project?.id || "";
+    projectForm.elements.category.value = project?.category || defaultProjectCategory;
+    projectForm.elements.title.value = project?.title || "";
+    projectForm.elements.description.value = project?.description || "";
+    projectForm.elements.url.value = project?.url || "";
+    projectForm.elements.meta1.value = project?.meta?.[0] || "";
+    projectForm.elements.meta2.value = project?.meta?.[1] || "";
+    projectForm.elements.meta3.value = project?.meta?.[2] || "";
     setModalOpen(projectModal, true);
-    if (projectCategoryField && activeProjectFilter !== "all") {
+    if (!isEdit && projectCategoryField && activeProjectFilter !== "all") {
       projectCategoryField.value = activeProjectFilter;
     }
+    if (projectModalTitle) {
+      projectModalTitle.textContent = isEdit ? "编辑项目" : "添加项目";
+    }
+    if (projectModalEyebrow) {
+      projectModalEyebrow.textContent = isEdit ? "Edit Project" : "New Project";
+    }
+    if (projectSubmitButton) {
+      projectSubmitButton.innerHTML = isEdit
+        ? '<i data-lucide="save"></i>保存修改'
+        : '<i data-lucide="plus"></i>创建项目';
+    }
     projectForm.elements.title?.focus();
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
   };
 
   const openCategoryModal = () => {
@@ -930,6 +1041,41 @@
     });
   });
 
+  projectScroller?.addEventListener("click", (event) => {
+    const editButton = event.target.closest("[data-edit-project]");
+    const deleteButton = event.target.closest("[data-delete-project]");
+    const card = event.target.closest(".project-card[data-project-id]");
+    if (!card) return;
+
+    if (editButton || deleteButton) {
+      if (!isAdmin) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (editButton) {
+        openProjectModal(getProjectData(card));
+        return;
+      }
+
+      const projectTitle = card.querySelector("h3")?.textContent.trim() || "这个项目";
+      openDeleteModal({
+        message: `确认删除项目「${projectTitle}」吗？`,
+        action: () => deleteProjectCard(card)
+      });
+      return;
+    }
+
+    openProjectURL(card);
+  });
+
+  projectScroller?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    if (event.target.closest("button")) return;
+    const card = event.target.closest(".project-card[data-project-id]");
+    if (!card) return;
+    event.preventDefault();
+    openProjectURL(card);
+  });
+
   publicationList?.addEventListener("click", (event) => {
     const editButton = event.target.closest("[data-edit-publication]");
     const deleteButton = event.target.closest("[data-delete-publication]");
@@ -1080,17 +1226,36 @@
     event.preventDefault();
     if (!isAdmin) return;
     const formData = new FormData(projectForm);
+    const existingId = String(formData.get("id") || "").trim();
     const project = {
-      id: createProjectId({ title: formData.get("title"), category: formData.get("category") }, Date.now()),
-      category: formData.get("category"),
-      title: formData.get("title"),
-      description: formData.get("description"),
-      meta: [formData.get("meta1"), formData.get("meta2"), formData.get("meta3")].filter(Boolean)
+      id:
+        existingId ||
+        createProjectId(
+          {
+            title: formData.get("title"),
+            category: formData.get("category")
+          },
+          Date.now()
+        ),
+      category: String(formData.get("category") || "").trim(),
+      title: String(formData.get("title") || "").trim(),
+      description: String(formData.get("description") || "").trim(),
+      meta: [formData.get("meta1"), formData.get("meta2"), formData.get("meta3")]
+        .map((item) => String(item || "").trim())
+        .filter(Boolean),
+      url: normalizeProjectURL(formData.get("url"))
     };
-    const card = createProjectCard(project);
-    writeStoredProjects([...readStoredProjects(), project]);
-    setActiveProjectFilter(project.category);
-    window.setTimeout(() => card.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" }), 120);
+
+    const existing = findProjectCard(project.id);
+    const card = existing || createProjectCard({ ...project, persisted: true });
+    if (card) {
+      setProjectCardData(card, project);
+      upsertStoredProject(project);
+      forgetDeletedProject(project.id);
+      setActiveProjectFilter(project.category);
+      window.setTimeout(() => card.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" }), 120);
+    }
+
     projectForm.reset();
     closeProjectModal();
   });

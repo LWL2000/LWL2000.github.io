@@ -134,7 +134,15 @@
           </div>
 
           <div class="project-grid" data-project-scroll>
-            <article class="project-card" data-category="eeg" data-project-id="eeg-emotion">
+            <article class="project-card" data-category="eeg" data-project-id="eeg-emotion" data-project-url="https://github.com/LWL2000" role="link" tabindex="0" aria-label="打开项目：EEG情绪识别">
+              <div class="project-actions">
+                <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
               <div class="project-kicker">
                 <span>01</span>
                 <i data-lucide="activity"></i>
@@ -148,9 +156,21 @@
                 <li>Model: CNN / Transformer</li>
                 <li>Status: 实验迭代中</li>
               </ul>
+              <div class="project-card-footer">
+                <strong>查看代码</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
             </article>
 
-            <article class="project-card" data-category="ssvep" data-project-id="ssvep-drone">
+            <article class="project-card" data-category="ssvep" data-project-id="ssvep-drone" data-project-url="https://github.com/LWL2000" role="link" tabindex="0" aria-label="打开项目：SSVEP无人机">
+              <div class="project-actions">
+                <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
               <div class="project-kicker">
                 <span>02</span>
                 <i data-lucide="drone"></i>
@@ -164,9 +184,21 @@
                 <li>Control: Real-time command loop</li>
                 <li>Status: 原型验证</li>
               </ul>
+              <div class="project-card-footer">
+                <strong>查看代码</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
             </article>
 
-            <article class="project-card" data-category="robotics" data-project-id="brain-wheelchair">
+            <article class="project-card" data-category="robotics" data-project-id="brain-wheelchair" data-project-url="https://github.com/LWL2000" role="link" tabindex="0" aria-label="打开项目：脑控轮椅">
+              <div class="project-actions">
+                <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
               <div class="project-kicker">
                 <span>03</span>
                 <i data-lucide="accessibility"></i>
@@ -180,9 +212,21 @@
                 <li>Safety: Obstacle-aware control</li>
                 <li>Status: 系统集成</li>
               </ul>
+              <div class="project-card-footer">
+                <strong>查看代码</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
             </article>
 
-            <article class="project-card" data-category="robotics" data-project-id="vla-robot">
+            <article class="project-card" data-category="robotics" data-project-id="vla-robot" data-project-url="https://github.com/LWL2000" role="link" tabindex="0" aria-label="打开项目：VLA机器人">
+              <div class="project-actions">
+                <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
               <div class="project-kicker">
                 <span>04</span>
                 <i data-lucide="bot"></i>
@@ -196,6 +240,10 @@
                 <li>Scene: Manipulation / navigation</li>
                 <li>Status: 研究构建</li>
               </ul>
+              <div class="project-card-footer">
+                <strong>查看代码</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
             </article>
 
             <button class="project-add-card" type="button" data-open-project-modal data-admin-only>
@@ -389,9 +437,10 @@
         <button class="icon-button project-modal-close" type="button" aria-label="关闭添加项目窗口" data-close-project-modal>
           <i data-lucide="x"></i>
         </button>
-        <p class="eyebrow">New Project</p>
+        <p class="eyebrow" data-project-eyebrow>New Project</p>
         <h2 id="projectModalTitle">添加项目</h2>
         <form class="project-form" data-project-form>
+          <input name="id" type="hidden" />
           <label>
             <span>项目归类</span>
             <select name="category" required>
@@ -403,6 +452,10 @@
           <label>
             <span>项目名称</span>
             <input name="title" type="text" placeholder="例如：脑控机械臂" required />
+          </label>
+          <label>
+            <span>GitHub 链接</span>
+            <input name="url" type="text" placeholder="例如：https://github.com/LWL2000/project-name" />
           </label>
           <label>
             <span>项目简介</span>
@@ -420,7 +473,7 @@
             <span>信息 3</span>
             <input name="meta3" type="text" placeholder="例如：Status: 设计中" />
           </label>
-          <button class="button primary" type="submit">
+          <button class="button primary" type="submit" data-project-submit>
             <i data-lucide="plus"></i>
             创建项目
           </button>
