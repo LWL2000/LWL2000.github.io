@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="个人主页，展示脑机接口、EEG情绪识别、SSVEP无人机、脑控轮椅与VLA机器人项目。"
+    />
+    <title>HackerL | BCI && Robotics Portfolio</title>
+    <link rel="preload" href="assets/images/hero-neural-bci.png" as="image" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <canvas id="signalCanvas" aria-hidden="true"></canvas>
+    <div class="page-grain" aria-hidden="true"></div>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#home" aria-label="回到首页">
+        <span class="brand-mark">BCI</span>
+        <span class="brand-copy">
+          <strong>HackerL</strong>
+          <small>Neuro Intelligence</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="主导航" data-nav>
+        <a href="#home">首页 <span>Home</span></a>
+        <a href="#about">关于我 <span>About</span></a>
+        <a href="#projects">项目 <span>Projects</span></a>
+        <a href="#publications">论文 <span>Publications</span></a>
+        <a href="#blog">博客 <span>Blog</span></a>
+        <a href="#resume">简历 <span>Resume</span></a>
+        <a href="#contact">联系方式 <span>Contact</span></a>
+      </nav>
+
+      <button class="icon-button nav-toggle" type="button" aria-label="打开导航" data-menu-toggle>
+        <i data-lucide="menu"></i>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero section" id="home" aria-label="首页">
+        <div class="hero-stage">
+        <div class="hero-image" aria-hidden="true">
+          <!--
+            原版代码（已注释保留）：
+            <img src="assets/images/hero-neural-bci.png" alt="" />
+          -->
+          <!-- 新版代码（当前生效）：增加 hero-bg-image-v2，用于让首页背景图更明显 -->
+          <img class="hero-bg-image hero-bg-image-v2" src="assets/images/hero-neural-bci.png" alt="" />
+        </div>
+        <canvas id="heroWaveCanvas" class="hero-wave-canvas" aria-hidden="true"></canvas>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="section-inner hero-inner">
+          <!-- <p class="eyebrow">Brain-Computer Interface / Robotics / AI</p> -->
+          <h1>李伟龙</h1>
+          <p class="hero-lead">
+            聚焦 EEG 情绪识别、SSVEP 无人机控制、脑控轮椅与 VLA 机器人，让神经信号走向可验证、可交互、可落地的智能系统。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">
+              <i data-lucide="cpu"></i>
+              查看项目
+            </a>
+            <a class="button secondary" href="#contact">
+              <i data-lucide="send"></i>
+              联系我
+            </a>
+          </div>
+          <dl class="hero-stats" aria-label="主页概览">
+            <div>
+              <dt>BCI</dt>
+              <dd>脑机接口</dd>
+            </div>
+            <div>
+              <dt>EEG</dt>
+              <dd>脑电信号</dd>
+            </div>
+            <div>
+              <dt>VLA</dt>
+              <dd>具身智能</dd>
+            </div>
+          </dl>
+        </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-inner split-grid">
+          <div>
+            <p class="eyebrow">About</p>
+            <h2>关于我</h2>
+          </div>
+          <div class="about-copy">
+            <p>
+              我正在围绕脑机接口、人机协同与机器人智能开展研究与工程实践。当前关注从 EEG 信号采集、特征建模、实时控制到机器人多模态决策的完整链路。
+            </p>
+            <p>
+              这个网站用于集中展示我的研究方向、项目成果、论文记录、技术博客和简历信息。你可以把下方内容替换为真实经历、论文链接、演示视频和联系方式。
+            </p>
+            <div class="skill-rack" aria-label="能力标签">
+              <span>EEG Processing</span>
+              <span>SSVEP</span>
+              <span>Signal Decoding</span>
+              <span>BCI Control</span>
+              <span>Robotics</span>
+              <span>VLA</span>
+              <span>Python</span>
+              <span>PyTorch</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section project-section" id="projects">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Projects</p>
+              <h2>项目</h2>
+            </div>
+            <div class="project-toolbar">
+              <button class="project-add-button" type="button" aria-label="添加项目分类" title="添加项目分类" data-open-category-modal data-admin-only>
+                <i data-lucide="plus"></i>
+              </button>
+              <div class="project-tabs" role="tablist" aria-label="项目筛选">
+                <button class="tab is-active" type="button" data-filter="all">全部</button>
+                <button class="tab" type="button" data-filter="eeg">EEG</button>
+                <button class="tab" type="button" data-filter="ssvep">SSVEP</button>
+                <button class="tab" type="button" data-filter="robotics">Robotics</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-grid" data-project-scroll>
+            <article class="project-card" data-category="eeg" data-project-id="eeg-emotion">
+              <div class="project-kicker">
+                <span>01</span>
+                <i data-lucide="activity"></i>
+              </div>
+              <h3>EEG情绪识别</h3>
+              <p>
+                基于多通道脑电信号进行情绪状态识别，覆盖预处理、频域特征、深度学习分类和跨被试泛化评估。
+              </p>
+              <ul class="project-meta">
+                <li>Feature: PSD / DE / Connectivity</li>
+                <li>Model: CNN / Transformer</li>
+                <li>Status: 实验迭代中</li>
+              </ul>
+            </article>
+
+            <article class="project-card" data-category="ssvep" data-project-id="ssvep-drone">
+              <div class="project-kicker">
+                <span>02</span>
+                <i data-lucide="drone"></i>
+              </div>
+              <h3>SSVEP无人机</h3>
+              <p>
+                通过稳态视觉诱发电位识别用户意图，将频率编码目标转化为无人机方向、悬停和任务控制指令。
+              </p>
+              <ul class="project-meta">
+                <li>Signal: SSVEP frequency coding</li>
+                <li>Control: Real-time command loop</li>
+                <li>Status: 原型验证</li>
+              </ul>
+            </article>
+
+            <article class="project-card" data-category="robotics" data-project-id="brain-wheelchair">
+              <div class="project-kicker">
+                <span>03</span>
+                <i data-lucide="accessibility"></i>
+              </div>
+              <h3>脑控轮椅</h3>
+              <p>
+                面向辅助移动场景，融合脑电意图识别、环境感知与安全约束，实现更稳定的人机共享控制。
+              </p>
+              <ul class="project-meta">
+                <li>Task: Navigation assistance</li>
+                <li>Safety: Obstacle-aware control</li>
+                <li>Status: 系统集成</li>
+              </ul>
+            </article>
+
+            <article class="project-card" data-category="robotics" data-project-id="vla-robot">
+              <div class="project-kicker">
+                <span>04</span>
+                <i data-lucide="bot"></i>
+              </div>
+              <h3>VLA机器人</h3>
+              <p>
+                探索视觉-语言-动作模型在机器人任务规划与执行中的应用，连接自然语言指令、视觉理解与动作策略。
+              </p>
+              <ul class="project-meta">
+                <li>Model: Vision-Language-Action</li>
+                <li>Scene: Manipulation / navigation</li>
+                <li>Status: 研究构建</li>
+              </ul>
+            </article>
+
+            <button class="project-add-card" type="button" data-open-project-modal data-admin-only>
+              <i data-lucide="plus"></i>
+              <span>添加新项目</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="publications">
+        <div class="section-inner split-grid">
+          <div>
+            <p class="eyebrow">Publications</p>
+            <h2>论文</h2>
+          </div>
+          <div class="publication-panel">
+            <div class="publication-toolbar">
+              <button class="publication-add-button" type="button" aria-label="添加论文" title="添加论文" data-open-publication-modal data-admin-only>
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+            <div class="timeline" data-publication-list>
+            <article class="timeline-item" data-publication-id="eeg-emotion-adaptation">
+              <div class="publication-actions">
+                <button class="icon-button publication-action" type="button" aria-label="编辑论文" title="编辑论文" data-edit-publication data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button publication-action danger-action" type="button" aria-label="删除论文" title="删除论文" data-delete-publication data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <span class="time">2026</span>
+              <h3>EEG-based Emotion Recognition with Robust Cross-subject Adaptation</h3>
+              <p>作者列表 / 会议或期刊名称 / 状态待补充</p>
+            </article>
+            <article class="timeline-item" data-publication-id="ssvep-aerial-robotics">
+              <div class="publication-actions">
+                <button class="icon-button publication-action" type="button" aria-label="编辑论文" title="编辑论文" data-edit-publication data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button publication-action danger-action" type="button" aria-label="删除论文" title="删除论文" data-delete-publication data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <span class="time">2025</span>
+              <h3>Real-time SSVEP Control for Aerial Robotics</h3>
+              <p>作者列表 / 会议或期刊名称 / 状态待补充</p>
+            </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="blog">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Blog</p>
+              <h2>博客</h2>
+            </div>
+            <div class="blog-toolbar">
+              <button class="blog-add-button" type="button" aria-label="添加博客" title="添加博客" data-open-blog-modal data-admin-only>
+                <i data-lucide="plus"></i>
+              </button>
+              <a class="text-link" href="#contact">订阅更新 <i data-lucide="arrow-up-right"></i></a>
+            </div>
+          </div>
+          <div class="blog-grid" data-blog-list>
+            <article class="blog-card" data-blog-id="eeg-preprocessing-note" data-blog-url="#blog" role="link" tabindex="0" aria-label="打开博客：EEG 预处理流程笔记">
+              <div class="blog-actions">
+                <button class="icon-button blog-action" type="button" aria-label="编辑博客" title="编辑博客" data-edit-blog data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button blog-action danger-action" type="button" aria-label="删除博客" title="删除博客" data-delete-blog data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <span>Signal Processing</span>
+              <h3>EEG 预处理流程笔记</h3>
+              <p>记录滤波、伪迹去除、分段、基线校正与实验复现细节。</p>
+              <div class="blog-card-footer">
+                <strong>查看文章</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
+            </article>
+            <article class="blog-card" data-blog-id="ssvep-online-control" data-blog-url="#blog" role="link" tabindex="0" aria-label="打开博客：SSVEP 在线控制系统设计">
+              <div class="blog-actions">
+                <button class="icon-button blog-action" type="button" aria-label="编辑博客" title="编辑博客" data-edit-blog data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button blog-action danger-action" type="button" aria-label="删除博客" title="删除博客" data-delete-blog data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <span>BCI Control</span>
+              <h3>SSVEP 在线控制系统设计</h3>
+              <p>从刺激编码到实时解码，再到控制指令队列的工程实现。</p>
+              <div class="blog-card-footer">
+                <strong>查看文章</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
+            </article>
+            <article class="blog-card" data-blog-id="vla-robot-reading" data-blog-url="#blog" role="link" tabindex="0" aria-label="打开博客：VLA 机器人论文阅读">
+              <div class="blog-actions">
+                <button class="icon-button blog-action" type="button" aria-label="编辑博客" title="编辑博客" data-edit-blog data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button blog-action danger-action" type="button" aria-label="删除博客" title="删除博客" data-delete-blog data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <span>Embodied AI</span>
+              <h3>VLA 机器人论文阅读</h3>
+              <p>梳理视觉-语言-动作模型在具身任务中的关键方法。</p>
+              <div class="blog-card-footer">
+                <strong>查看文章</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="resume">
+        <div class="section-inner split-grid">
+          <div>
+            <p class="eyebrow">Resume</p>
+            <h2>简历</h2>
+          </div>
+          <div class="resume-panel">
+            <div class="resume-row">
+              <span>研究方向</span>
+              <strong>Brain-Computer Interface, EEG, Robotics, VLA</strong>
+            </div>
+            <div class="resume-row">
+              <span>教育经历</span>
+              <strong>军事科学院 / 计算机（本科）与生物医学工程（硕士） / 工学学位</strong>
+            </div>
+            <div class="resume-row">
+              <span>技术栈</span>
+              <strong>Python, MATLAB, PyTorch, Embedded Systems</strong>
+            </div>
+            <div class="resume-actions">
+              <a class="button primary" href="assets/files/resume.pdf" target="_blank" rel="noopener">
+                <i data-lucide="file-text"></i>
+                获取简历
+              </a>
+              <a class="button secondary" href="#publications">
+                <i data-lucide="library"></i>
+                查看论文
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="section-inner contact-grid">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2>联系方式</h2>
+            <p>
+              欢迎交流脑机接口、情绪计算、辅助移动系统、无人机控制与机器人智能相关合作。
+            </p>
+          </div>
+          <div class="contact-card">
+            <a href="mailto:a15839536310@126.com">
+              <i data-lucide="mail"></i>
+              a15839536310@126.com
+            </a>
+            <a href="https://github.com/LWL2000" target="_blank" rel="noreferrer">
+              <i data-lucide="code-2"></i>
+              https://github.com/LWL2000
+            </a>
+            <a href="tel:15839536310">
+              <i data-lucide="phone"></i>
+              Tel : 15839536310
+            </a>
+            <button class="copy-mail" type="button" data-email="a15839536310@126.com">
+              <i data-lucide="copy"></i>
+              复制邮箱
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="project-modal" aria-hidden="true" data-project-modal>
+      <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+        <button class="icon-button project-modal-close" type="button" aria-label="关闭添加项目窗口" data-close-project-modal>
+          <i data-lucide="x"></i>
+        </button>
+        <p class="eyebrow">New Project</p>
+        <h2 id="projectModalTitle">添加项目</h2>
+        <form class="project-form" data-project-form>
+          <label>
+            <span>项目归类</span>
+            <select name="category" required>
+              <option value="eeg">EEG</option>
+              <option value="ssvep">SSVEP</option>
+              <option value="robotics">Robotics</option>
+            </select>
+          </label>
+          <label>
+            <span>项目名称</span>
+            <input name="title" type="text" placeholder="例如：脑控机械臂" required />
+          </label>
+          <label>
+            <span>项目简介</span>
+            <textarea name="description" rows="4" placeholder="简要描述项目目标、方法和应用场景" required></textarea>
+          </label>
+          <label>
+            <span>信息 1</span>
+            <input name="meta1" type="text" placeholder="例如：Signal: EEG / EMG" />
+          </label>
+          <label>
+            <span>信息 2</span>
+            <input name="meta2" type="text" placeholder="例如：Model: Transformer" />
+          </label>
+          <label>
+            <span>信息 3</span>
+            <input name="meta3" type="text" placeholder="例如：Status: 设计中" />
+          </label>
+          <button class="button primary" type="submit">
+            <i data-lucide="plus"></i>
+            创建项目
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="project-modal category-modal" aria-hidden="true" data-category-modal>
+      <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
+        <button class="icon-button project-modal-close" type="button" aria-label="关闭添加分类窗口" data-close-category-modal>
+          <i data-lucide="x"></i>
+        </button>
+        <p class="eyebrow">New Category</p>
+        <h2 id="categoryModalTitle">添加分类</h2>
+        <form class="project-form" data-category-form>
+          <label>
+            <span>分类名称</span>
+            <input name="name" type="text" placeholder="例如：VLA / 脑控轮椅" required />
+          </label>
+          <button class="button primary" type="submit">
+            <i data-lucide="plus"></i>
+            创建分类
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="project-modal publication-modal" aria-hidden="true" data-publication-modal>
+      <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="publicationModalTitle">
+        <button class="icon-button project-modal-close" type="button" aria-label="关闭论文窗口" data-close-publication-modal>
+          <i data-lucide="x"></i>
+        </button>
+        <p class="eyebrow" data-publication-eyebrow>New Publication</p>
+        <h2 id="publicationModalTitle">添加论文</h2>
+        <form class="project-form" data-publication-form>
+          <input name="id" type="hidden" />
+          <label>
+            <span>年份</span>
+            <input name="year" type="text" placeholder="例如：2026" required />
+          </label>
+          <label>
+            <span>论文标题</span>
+            <input name="title" type="text" placeholder="例如：EEG-based Emotion Recognition" required />
+          </label>
+          <label>
+            <span>作者 / 会议 / 状态</span>
+            <textarea name="meta" rows="3" placeholder="例如：作者列表 / IEEE TNSRE / Under Review" required></textarea>
+          </label>
+          <button class="button primary" type="submit" data-publication-submit>
+            <i data-lucide="plus"></i>
+            创建论文
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="project-modal blog-modal" aria-hidden="true" data-blog-modal>
+      <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="blogModalTitle">
+        <button class="icon-button project-modal-close" type="button" aria-label="关闭博客窗口" data-close-blog-modal>
+          <i data-lucide="x"></i>
+        </button>
+        <p class="eyebrow" data-blog-eyebrow>New Blog</p>
+        <h2 id="blogModalTitle">添加博客</h2>
+        <form class="project-form" data-blog-form>
+          <input name="id" type="hidden" />
+          <label>
+            <span>博客标签</span>
+            <input name="label" type="text" placeholder="例如：Signal Processing" required />
+          </label>
+          <label>
+            <span>博客标题</span>
+            <input name="title" type="text" placeholder="例如：EEG 预处理流程笔记" required />
+          </label>
+          <label>
+            <span>博客简介</span>
+            <textarea name="description" rows="3" placeholder="简要描述这篇博客的主要内容" required></textarea>
+          </label>
+          <label>
+            <span>跳转网址</span>
+            <input name="url" type="text" placeholder="例如：https://example.com/blog/eeg-note" required />
+          </label>
+          <button class="button primary" type="submit" data-blog-submit>
+            <i data-lucide="plus"></i>
+            创建博客
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="project-modal delete-modal" aria-hidden="true" data-delete-modal>
+      <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+        <button class="icon-button project-modal-close" type="button" aria-label="取消删除" data-cancel-delete>
+          <i data-lucide="x"></i>
+        </button>
+        <p class="eyebrow">Delete</p>
+        <h2 id="deleteModalTitle">确认删除</h2>
+        <p class="delete-modal-message" data-delete-message>确定要删除这一项吗？</p>
+        <div class="modal-actions">
+          <button class="button secondary" type="button" data-cancel-delete>取消</button>
+          <button class="button danger" type="button" data-confirm-delete>
+            <i data-lucide="trash-2"></i>
+            确认删除
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <span>© 2026 HakerL</span>
+      <a href="#home">Back to top</a>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
