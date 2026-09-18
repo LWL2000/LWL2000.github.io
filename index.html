@@ -129,12 +129,13 @@
                 <button class="tab" type="button" data-filter="eeg">EEG</button>
                 <button class="tab" type="button" data-filter="ssvep">SSVEP</button>
                 <button class="tab" type="button" data-filter="robotics">Robotics</button>
+                <button class="tab" type="button" data-filter="category-1789731665727">眼动</button>
               </div>
             </div>
           </div>
 
           <div class="project-grid" data-project-scroll>
-            <article class="project-card" data-category="eeg" data-project-id="eeg-emotion" data-project-url="https://github.com/LWL2000" role="link" tabindex="0" aria-label="打开项目：EEG情绪识别">
+            <article class="project-card" data-category="eeg" data-project-id="eeg-emotion" data-project-url="https://github.com/LWL2000/Emotion-Recognition" role="link" tabindex="0" aria-label="打开项目：EEG情绪识别">
               <div class="project-actions">
                 <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
                   <i data-lucide="pencil"></i>
@@ -149,7 +150,7 @@
               </div>
               <h3>EEG情绪识别</h3>
               <p>
-                基于多通道脑电信号进行情绪状态识别，覆盖预处理、频域特征、深度学习分类和跨被试泛化评估。
+                基于4通道脑电信号进行情绪状态识别，覆盖预处理、频域特征、深度学习分类和跨被试泛化评估。
               </p>
               <ul class="project-meta">
                 <li>Feature: PSD / DE / Connectivity</li>
@@ -190,7 +191,7 @@
               </div>
             </article>
 
-            <article class="project-card" data-category="robotics" data-project-id="brain-wheelchair" data-project-url="https://github.com/LWL2000" role="link" tabindex="0" aria-label="打开项目：脑控轮椅">
+            <article class="project-card" data-category="eeg" data-project-id="brain-wheelchair" data-project-url="https://github.com/LWL2000/Brain-Machine" role="link" tabindex="0" aria-label="打开项目：注意力测试控制">
               <div class="project-actions">
                 <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
                   <i data-lucide="pencil"></i>
@@ -203,9 +204,9 @@
                 <span>03</span>
                 <i data-lucide="accessibility"></i>
               </div>
-              <h3>脑控轮椅</h3>
+              <h3>注意力测试控制</h3>
               <p>
-                面向辅助移动场景，融合脑电意图识别、环境感知与安全约束，实现更稳定的人机共享控制。
+                通过脑电计算当前被试的专注力，从而实现控制外物，比如虚拟的爆米花机系统，也可以用来赛车，开关灯泡等等
               </p>
               <ul class="project-meta">
                 <li>Task: Navigation assistance</li>
@@ -246,6 +247,59 @@
               </div>
             </article>
 
+            <article class="project-card" data-category="category-1789731665727" data-project-id="category-1789731665727-1789731878172" data-project-url="https://github.com/LWL2000/eyetypewriting" role="link" tabindex="0" aria-label="打开项目：眼动打字系统">
+              <div class="project-actions">
+                <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <div class="project-kicker">
+                <span>05</span>
+                <i data-lucide="cpu"></i>
+              </div>
+              <h3>眼动打字系统</h3>
+              <p>
+                简易网络摄像头简单矫正后就可以实现眼动追踪打字，速度快，准确率高
+              </p>
+              <ul class="project-meta">
+                <li>EyeTrax</li>
+              </ul>
+              <div class="project-card-footer">
+                <strong>查看代码</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
+            </article>
+
+            <article class="project-card" data-category="eeg" data-project-id="eeg-1789732262167" data-project-url="https://github.com/LWL2000/Brain-typing" role="link" tabindex="0" aria-label="打开项目：脑电眼动打字系统">
+              <div class="project-actions">
+                <button class="icon-button project-action" type="button" aria-label="编辑项目" title="编辑项目" data-edit-project data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button project-action danger-action" type="button" aria-label="删除项目" title="删除项目" data-delete-project data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <div class="project-kicker">
+                <span>06</span>
+                <i data-lucide="activity"></i>
+              </div>
+              <h3>脑电眼动打字系统</h3>
+              <p>
+                脑电打字软件，实现个人模板采集后，通过意念实现打字，准确率平均90%以上
+              </p>
+              <ul class="project-meta">
+                <li>EEG/SSVEP</li>
+                <li>FBCCA+TRCA</li>
+              </ul>
+              <div class="project-card-footer">
+                <strong>查看代码</strong>
+                <i data-lucide="arrow-up-right"></i>
+              </div>
+            </article>
+
             <button class="project-add-card" type="button" data-open-project-modal data-admin-only>
               <i data-lucide="plus"></i>
               <span>添加新项目</span>
@@ -277,8 +331,8 @@
                 </button>
               </div>
               <span class="time">2026</span>
-              <h3>EEG-based Emotion Recognition with Robust Cross-subject Adaptation</h3>
-              <p>作者列表 / 会议或期刊名称 / 状态待补充</p>
+              <h3>SmallHeadNo.3inSuzhou:RemoteFixes</h3>
+              <p>Li Weilong</p>
             </article>
             <article class="timeline-item" data-publication-id="ssvep-aerial-robotics">
               <div class="publication-actions">
@@ -290,8 +344,21 @@
                 </button>
               </div>
               <span class="time">2025</span>
-              <h3>Real-time SSVEP Control for Aerial Robotics</h3>
-              <p>作者列表 / 会议或期刊名称 / 状态待补充</p>
+              <h3>Prediction Is Not Permission: Consequence-Aware Authorization after EEG--Gaze Fusion</h3>
+              <p>Li weilong</p>
+            </article>
+            <article class="timeline-item" data-publication-id="2025-1789732767121">
+              <div class="publication-actions">
+                <button class="icon-button publication-action" type="button" aria-label="编辑论文" title="编辑论文" data-edit-publication data-admin-only>
+                  <i data-lucide="pencil"></i>
+                </button>
+                <button class="icon-button publication-action danger-action" type="button" aria-label="删除论文" title="删除论文" data-delete-publication data-admin-only>
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+              <span class="time">2025</span>
+              <h3>视觉感知与视觉想象的脑成像比较分析与研究</h3>
+              <p>李伟龙</p>
             </article>
             </div>
           </div>
@@ -447,6 +514,7 @@
               <option value="eeg">EEG</option>
               <option value="ssvep">SSVEP</option>
               <option value="robotics">Robotics</option>
+              <option value="category-1789731665727">眼动</option>
             </select>
           </label>
           <label>
